@@ -72,8 +72,16 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void putAnswer(item, value) {
-    selectedChoices[item] = value;
+  void putAnswerState(item, value) {
+    Map<String, bool> newSelectedChoices = selectedChoices;
+    newSelectedChoices[item] = value;
+    setState(() {
+      selectedChoices = newSelectedChoices;
+    });
+  }
+
+  bool getAnswerState(item) {
+    return selectedChoices.containsKey(item);
   }
 
   String getSolution() {
@@ -144,9 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
     List<int> _question_solution = _question.solution;
     bool _multiple_choice = false;
 
-    for (var i = 0; i < _question_answers.length; i++) {
-      selectedChoices[_question_answers[i]] = false;
-    }
+    //for (var i = 0; i < _question_answers.length; i++) {
+    //  selectedChoices[_question_answers[i]] = false;
+    //}
 
     //if (_question_solution.length > 1) {
     //  _multiple_choice = true;
@@ -206,9 +214,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Row(
                     children: <Widget>[
                       Checkbox(
-                        value: selectedChoices[item],
+                        value: getAnswerState(item),
                         onChanged: (bool newValue) {
-                          putAnswer(item, newValue);
+                          putAnswerState(item, newValue);
                         },
                       ),
                       Expanded(
